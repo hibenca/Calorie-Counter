@@ -3,9 +3,9 @@
 
 
 // Item Controller
-const ItemCtrl = (function() {
+const ItemCtrl = (function () {
     // Item Constructor
-    const Item = function(id, name, calories) {
+    const Item = function (id, name, calories) {
         this.id = id;
         this.name = name;
         this.calories = calories;
@@ -14,9 +14,9 @@ const ItemCtrl = (function() {
     // Data Structure / State
     const data = {
         items: [
-            {id: 0, name: "Steak Dinner", calories: 1200},
-            {id: 1, name: "Chicken Dinner", calories: 1000},
-            {id: 2, name: "Breakfast Burrito", calories: 800}
+            { id: 0, name: "Steak Dinner", calories: 1200 },
+            { id: 1, name: "Chicken Dinner", calories: 1000 },
+            { id: 2, name: "Breakfast Burrito", calories: 800 }
         ],
         currentItem: null,
         totalCalories: 0
@@ -24,7 +24,10 @@ const ItemCtrl = (function() {
 
     // Public methods
     return {
-        logData: function(){
+        getItems: function () {
+            return data.items
+        },
+        logData: function () {
             return data;
         }
     }
@@ -33,23 +36,43 @@ const ItemCtrl = (function() {
 
 
 // UI Controller
-const UICtrl = (function() {
+const UICtrl = (function () {
+    const UISelectors = {
+        itemList: '#item-list'
+    }
 
     // Public methods
     return {
+        populateItemList: function (items) {
+            let html = '';
 
+            items.forEach(function (item) {
+                html += `<li class="collection-item" id="item-${item.id}">
+                <strong>${item.name}: </strong> <em>${item.calories} calories</em>
+                <a href="#" class="secondary-content"><i class="edit-item fa fa-pencil"></i></a>
+            </li>`;
+            });
+
+            // INsert list items
+            document.querySelector(UISelectors.itemList).innerHTML = html;
+        }
     }
 })();
 
 
 
 // App Controller
-const App = (function(ItemCtrl, UICtrl) {
+const App = (function (ItemCtrl, UICtrl) {
 
     // Public methods
     return {
-        init: function() {
-            console.log("Initalizing App...");
+        init: function () {
+
+            // Fetch items from data structure
+            const items = ItemCtrl.getItems();
+
+            // Populate list with items
+            UICtrl.populateItemList(items);
         }
     }
 
