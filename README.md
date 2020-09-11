@@ -11,4 +11,6 @@
 
 # What I learned
 
-* 
+* Creating UI
+* Controlling state
+* Using local storage
